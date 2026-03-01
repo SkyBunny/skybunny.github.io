@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow, noarchive, noimageindex, nosnippet" />
+  <meta name="googlebot" content="noindex, nofollow" />
+  <title>your name — a quiet cosmos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink:        #0d0b10;
+      --parchment:  #f5ead8;
+      --pink:       #dba0b2;
+      --pink-soft:  #ecc4d0;
+      --peach:      #e8b88a;
+      --peach-soft: #f2d0a8;
+      --dust:       #c4b8a0;
+      --muted:      #8a7a9a;
+      --text:       #f0e8d8;
+      --text-dim:   #b8a898;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--ink);
+      font-family: 'DM Sans', sans-serif;
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* cursor */
+    .cursor-dot {
+      position: fixed; width: 8px; height: 8px;
+      background: var(--pink-soft); border-radius: 50%;
+      pointer-events: none; z-index: 10000;
+      transform: translate(-50%,-50%);
+      transition: transform 0.1s;
+      box-shadow: 0 0 8px rgba(220,185,208,0.8);
+    }
+    .cursor-ring {
+      position: fixed; width: 28px; height: 28px;
+      border: 1px solid rgba(220,185,208,0.5); border-radius: 50%;
+      pointer-events: none; z-index: 9999;
+      transform: translate(-50%,-50%);
+      transition: width 0.2s, height 0.2s;
+    }
+
+    /* noise */
+    body::before {
+      content:''; position:fixed; inset:0;
+      background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      opacity:0.025; pointer-events:none; z-index:2;
+    }
+
+    #starfield { position:fixed; inset:0; pointer-events:none; z-index:0; }
+
+    .glow {
+      position:fixed; border-radius:50%; filter:blur(90px);
+      pointer-events:none; z-index:0;
+      animation:glowPulse ease-in-out infinite alternate;
+    }
+    .g1{width:600px;height:500px;top:-150px;left:-150px;background:radial-gradient(circle,rgba(180,100,140,0.18),transparent 65%);animation-duration:9s;}
+    .g2{width:500px;height:400px;bottom:-100px;right:-100px;background:radial-gradient(circle,rgba(220,160,100,0.12),transparent 65%);animation-duration:13s;animation-delay:3s;}
+    .g3{width:400px;height:400px;top:35%;left:55%;background:radial-gradient(circle,rgba(100,70,160,0.15),transparent 65%);animation-duration:17s;animation-delay:6s;}
+    @keyframes glowPulse { from{opacity:.5;transform:scale(1);}to{opacity:1;transform:scale(1.15);} }
+
+    .moon-deco {
+      position:fixed; top:2rem; right:3rem;
+      pointer-events:none; z-index:1; opacity:0.18;
+      animation:moonFloat 8s ease-in-out infinite alternate;
+    }
+    @keyframes moonFloat { from{transform:translateY(0) rotate(-5deg);}to{transform:translateY(-12px) rotate(5deg);} }
+
+    .constellation { position:fixed; pointer-events:none; z-index:1; opacity:0.06; }
+
+    .wrapper { max-width:720px; margin:0 auto; padding:4rem 2rem 7rem; position:relative; z-index:3; }
+
+    header { margin-bottom:3.5rem; animation:riseIn 1.2s cubic-bezier(.16,1,.3,1) both; }
+    .header-top { display:flex; align-items:flex-start; gap:2rem; margin-bottom:1.5rem; }
+
+    .saturn-wrap { flex-shrink:0; margin-top:0.3rem; animation:saturnSpin 30s linear infinite; opacity:0.9; }
+    @keyframes saturnSpin { to{transform:rotate(360deg);} }
+
+    .eyebrow { font-size:0.7rem; text-transform:uppercase; letter-spacing:3px; color:var(--peach); font-weight:400; margin-bottom:0.6rem; opacity:0.8; }
+    .site-title { font-family:'Cormorant Garamond',serif; font-size:3.2rem; font-weight:300; line-height:1.0; color:var(--text); margin-bottom:0.5rem; letter-spacing:-1px; }
+    .site-title em { font-style:italic; background:linear-gradient(135deg,var(--pink-soft),var(--peach-soft)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+    .site-subtitle { font-family:'EB Garamond',serif; font-size:1rem; font-style:italic; color:var(--text-dim); line-height:1.6; }
+
+    .rule { display:flex; align-items:center; gap:1rem; margin:2rem 0; opacity:0.35; }
+    .rule-line { flex:1; height:1px; background:linear-gradient(90deg,transparent,var(--dust),transparent); }
+    .rule-glyph { font-family:'Cormorant Garamond',serif; font-size:1rem; color:var(--peach); }
+
+    nav { display:flex; gap:0.5rem; flex-wrap:wrap; margin-bottom:3rem; animation:riseIn 1.2s 0.1s cubic-bezier(.16,1,.3,1) both; }
+    nav a {
+      text-decoration:none; font-size:0.78rem; letter-spacing:1.5px; text-transform:uppercase;
+      color:var(--text-dim); padding:0.4rem 1rem;
+      border:1px solid rgba(220,185,208,0.12); border-radius:2px;
+      transition:all 0.3s; background:rgba(255,255,255,0.02);
+    }
+    nav a:hover { color:var(--pink-soft); border-color:rgba(220,185,208,0.35); background:rgba(220,185,208,0.05); box-shadow:0 0 20px rgba(220,185,208,0.1); letter-spacing:2px; }
+    nav a.active { color:var(--pink-soft); border-color:rgba(220,185,208,0.3); }
+
+    .card {
+      background:rgba(255,255,255,0.025); border:1px solid rgba(220,185,208,0.1);
+      border-radius:4px; padding:2rem 2.2rem; margin-bottom:1.5rem;
+      position:relative; overflow:hidden; backdrop-filter:blur(12px);
+      animation:riseIn 1.2s ease both;
+    }
+    .card::before { content:''; position:absolute; top:0; left:0; right:0; height:1px; background:linear-gradient(90deg,transparent,rgba(220,185,208,0.4),rgba(232,184,138,0.3),transparent); }
+    .card-corner { position:absolute; top:0.6rem; right:0.8rem; font-size:0.65rem; letter-spacing:2px; color:rgba(220,185,208,0.2); font-family:'EB Garamond',serif; }
+
+    .welcome { animation-delay:0.15s; }
+    .welcome p { font-family:'EB Garamond',serif; font-size:1.15rem; line-height:2; color:var(--text-dim); font-style:italic; }
+    .welcome .sign { margin-top:1rem; font-size:0.78rem; color:var(--pink); font-style:normal; font-family:'DM Sans',sans-serif; opacity:0.8; }
+
+    .coming-soon { animation-delay:0.25s; text-align:center; padding:2.8rem 2rem; }
+    .cs-symbols { font-family:'Cormorant Garamond',serif; font-size:1.6rem; color:var(--peach); margin-bottom:1.2rem; letter-spacing:8px; opacity:0.6; animation:symbolFloat 4s ease-in-out infinite alternate; }
+    @keyframes symbolFloat { from{letter-spacing:6px;opacity:.5;}to{letter-spacing:10px;opacity:.8;} }
+    .coming-soon h2 { font-family:'Cormorant Garamond',serif; font-size:1.7rem; font-weight:300; color:var(--text); margin-bottom:0.7rem; }
+    .coming-soon p { font-family:'EB Garamond',serif; font-style:italic; font-size:1rem; color:var(--text-dim); line-height:1.9; }
+    .math-watermark { position:absolute; bottom:0.8rem; left:0; right:0; text-align:center; font-family:'Cormorant Garamond',serif; font-size:0.78rem; color:rgba(220,185,208,0.1); letter-spacing:4px; pointer-events:none; }
+
+    .chips-section { animation:riseIn 1.2s 0.35s cubic-bezier(.16,1,.3,1) both; }
+    .section-eyebrow { font-size:0.65rem; text-transform:uppercase; letter-spacing:3px; color:var(--peach); opacity:0.6; margin-bottom:0.9rem; }
+    .chips { display:flex; flex-wrap:wrap; gap:0.5rem; }
+    .chip { background:rgba(255,255,255,0.02); border:1px solid rgba(180,160,140,0.18); border-radius:2px; padding:0.3rem 0.85rem; font-size:0.8rem; color:var(--text-dim); transition:all 0.25s; font-family:'EB Garamond',serif; font-style:italic; }
+    .chip:hover { border-color:rgba(232,184,138,0.35); color:var(--peach-soft); background:rgba(232,184,138,0.05); }
+
+    footer { text-align:center; margin-top:4rem; animation:riseIn 1.2s 0.4s ease both; }
+    .footer-eq { font-family:'Cormorant Garamond',serif; font-size:1.1rem; font-style:italic; color:rgba(220,185,208,0.25); margin-bottom:0.6rem; letter-spacing:1px; }
+    .footer-note { font-size:0.72rem; color:rgba(160,144,128,0.4); letter-spacing:2px; text-transform:uppercase; }
+
+    .spark { position:fixed; pointer-events:none; z-index:9998; animation:sparkFade 0.9s ease forwards; line-height:1; font-size:0.7rem; }
+    @keyframes sparkFade { 0%{opacity:1;transform:scale(1) translateY(0) rotate(0deg);}100%{opacity:0;transform:scale(0.1) translateY(-30px) rotate(90deg);} }
+    @keyframes riseIn { from{opacity:0;transform:translateY(22px);}to{opacity:1;transform:translateY(0);} }
+  </style>
+</head>
+<body>
+
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+<div class="glow g1"></div><div class="glow g2"></div><div class="glow g3"></div>
+<canvas id="starfield"></canvas>
+
+<div class="moon-deco">
+  <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+    <path d="M55 12 Q28 18 22 40 Q18 58 38 68 Q15 65 10 42 Q6 18 30 8 Q42 4 55 12Z" fill="var(--parchment)" opacity="0.9"/>
+    <circle cx="62" cy="20" r="2" fill="var(--peach-soft)" opacity="0.6"/>
+    <circle cx="70" cy="35" r="1.2" fill="var(--pink-soft)" opacity="0.5"/>
+  </svg>
+</div>
+
+<svg class="constellation" style="top:10%;left:2%;width:200px;height:200px" viewBox="0 0 200 200">
+  <line x1="20" y1="40" x2="60" y2="20" stroke="#f5ead8" stroke-width="0.6"/>
+  <line x1="60" y1="20" x2="90" y2="55" stroke="#f5ead8" stroke-width="0.6"/>
+  <line x1="90" y1="55" x2="50" y2="80" stroke="#f5ead8" stroke-width="0.6"/>
+  <line x1="50" y1="80" x2="20" y2="40" stroke="#f5ead8" stroke-width="0.6"/>
+  <circle cx="20" cy="40" r="2.5" fill="#f5ead8"/>
+  <circle cx="60" cy="20" r="2" fill="#f5ead8"/>
+  <circle cx="90" cy="55" r="1.5" fill="#f5ead8"/>
+  <circle cx="50" cy="80" r="2" fill="#f5ead8"/>
+</svg>
+
+<div class="wrapper">
+  <header>
+    <div class="header-top">
+      <div class="saturn-wrap">
+        <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+          <ellipse cx="32" cy="36" rx="28" ry="8" stroke="rgba(232,184,138,0.5)" stroke-width="1" fill="none"/>
+          <circle cx="32" cy="32" r="14" fill="url(#pg1)" stroke="rgba(220,185,208,0.3)" stroke-width="0.5"/>
+          <ellipse cx="32" cy="29" rx="11" ry="3" stroke="rgba(220,185,208,0.15)" stroke-width="0.5" fill="none"/>
+          <defs>
+            <radialGradient id="pg1" cx="35%" cy="35%">
+              <stop offset="0%" stop-color="#c8a0b8"/>
+              <stop offset="60%" stop-color="#8a6090"/>
+              <stop offset="100%" stop-color="#3d2050"/>
+            </radialGradient>
+          </defs>
+        </svg>
+      </div>
+      <div class="title-block">
+        <div class="eyebrow">a quiet corner of the cosmos</div>
+        <!-- ✏️ CHANGE "your name" to your actual name -->
+        <h1 class="site-title">your name<br><em>writes.</em></h1>
+        <!-- ✏️ CHANGE subtitle if you like -->
+        <p class="site-subtitle">on mathematics, the universe,<br>and small earthly things</p>
+      </div>
+    </div>
+    <div class="rule"><div class="rule-line"></div><div class="rule-glyph">✦</div><div class="rule-line"></div></div>
+  </header>
+
+  <nav>
+    <a href="index.html" class="active">✦ &nbsp;home</a>
+    <a href="writings.html">◌ &nbsp;writings</a>
+    <a href="about.html">⊹ &nbsp;about</a>
+  </nav>
+
+  <div class="card welcome">
+    <div class="card-corner">vol. i</div>
+    <!-- ✏️ CHANGE this quote to your own words -->
+    <p>"This is where I put the things I can't stop thinking about — equations that feel like poetry, stars that make me feel wonderfully small, and the occasional observation about being alive on this strange little planet."</p>
+    <!-- ✏️ CHANGE "your name" -->
+    <div class="sign">— your name &nbsp;✦</div>
+  </div>
+
+  <div class="card coming-soon">
+    <div class="cs-symbols">∑ &nbsp; π &nbsp; ∞ &nbsp; ∇</div>
+    <h2>writings on their way</h2>
+    <p>Gathering thoughts under lamplight.<br>Watching the sky. Doing the math.<br>First piece coming soon — the universe is patient. ✦</p>
+    <div class="math-watermark">∂ψ/∂t = iĤψ &nbsp;&nbsp; E=mc² &nbsp;&nbsp; ∮E·dA = Q/ε₀</div>
+  </div>
+
+  <!-- ✏️ UPDATE these chips with your real info -->
+  <div class="chips-section">
+    <div class="section-eyebrow">✦ &nbsp; coordinates</div>
+    <div class="chips">
+      <span class="chip">📍 your city</span>
+      <span class="chip">💼 what you do</span>
+      <span class="chip">🔭 stargazer</span>
+      <span class="chip">∑ math & science writer</span>
+      <span class="chip">📚 currently reading</span>
+      <span class="chip">✉️ your@email.com</span>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-eq">∀ thoughts worth having, ∃ a place to write them</div>
+    <div class="footer-note">not indexed · not crawled · just a quiet corner</div>
+  </footer>
+</div>
+
+<script>
+const canvas = document.getElementById('starfield');
+const ctx = canvas.getContext('2d');
+function resize(){canvas.width=innerWidth;canvas.height=innerHeight;}
+resize(); window.addEventListener('resize',resize);
+const stars=Array.from({length:220},()=>({x:Math.random(),y:Math.random(),r:Math.random()*1.4+0.15,base:Math.random()*0.7+0.15,speed:Math.random()*0.006+0.002,phase:Math.random()*Math.PI*2,hue:Math.random()>.75?'rgba(232,184,138,':Math.random()>.5?'rgba(220,185,208,':'rgba(240,232,220,'}));
+const bright=Array.from({length:6},()=>({x:Math.random(),y:Math.random(),size:Math.random()*3+2,phase:Math.random()*Math.PI*2}));
+function drawFrame(t){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  stars.forEach(s=>{const a=s.base*(0.35+0.65*Math.sin(t*s.speed+s.phase));ctx.beginPath();ctx.arc(s.x*canvas.width,s.y*canvas.height,s.r,0,Math.PI*2);ctx.fillStyle=s.hue+a+')';ctx.fill();});
+  bright.forEach(s=>{const p=0.5+0.5*Math.sin(t*0.004+s.phase),x=s.x*canvas.width,y=s.y*canvas.height,sz=s.size*(0.7+0.3*p);ctx.strokeStyle=`rgba(245,234,216,${0.3+0.4*p})`;ctx.lineWidth=0.7;[[x-sz*2,y,x+sz*2,y],[x,y-sz*2,x,y+sz*2],[x-sz,y-sz,x+sz,y+sz],[x+sz,y-sz,x-sz,y+sz]].forEach(([x1,y1,x2,y2])=>{ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke();});});
+  requestAnimationFrame(drawFrame);
+}
+requestAnimationFrame(drawFrame);
+
+const dot=document.getElementById('cursorDot'),ring=document.getElementById('cursorRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+(function animCursor(){rx+=(mx-rx)*0.14;ry+=(my-ry)*0.14;dot.style.left=mx+'px';dot.style.top=my+'px';ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animCursor);})();
+document.addEventListener('mousedown',()=>{dot.style.transform='translate(-50%,-50%) scale(1.8)';ring.style.width='40px';ring.style.height='40px';});
+document.addEventListener('mouseup',()=>{dot.style.transform='translate(-50%,-50%) scale(1)';ring.style.width='28px';ring.style.height='28px';});
+
+const glyphs=['✿','🌸','✦','❀','✧','⋆','✾','❋','✦','🌼'];
+const colors=['#f5c842','#f7d96a','#f9e48a','#fbedb0','#f5c842','#fff0a0','#f0d060'];
+let lastT=0;
+document.addEventListener('mousemove',e=>{
+  const now=Date.now();if(now-lastT<45)return;lastT=now;if(Math.random()>0.6)return;
+  const el=document.createElement('div');el.className='spark';
+  el.textContent=glyphs[Math.floor(Math.random()*glyphs.length)];
+  const off=(Math.random()-0.5)*18;
+  el.style.cssText=`left:${e.clientX+off}px;top:${e.clientY+off}px;color:${colors[Math.floor(Math.random()*colors.length)]};font-size:${0.6+Math.random()*0.8}rem;text-shadow:0 0 6px rgba(245,200,66,0.8);`;
+  document.body.appendChild(el);setTimeout(()=>el.remove(),900);
+});
+</script>
+</body>
+</html>
